@@ -152,10 +152,13 @@ class Translator implements TranslatorInterface
      * Set root directory of language files.
      *
      * @param $dir
+     * @return $this
      */
     public function setRootDirectory($dir)
     {
         $this->rootDir = $dir;
+
+        return $this;
     }
 
     /**
@@ -173,10 +176,13 @@ class Translator implements TranslatorInterface
      * Set language directory name
      *
      * @param $dir
+     * @return $this
      */
     public function setLangDir($dir)
     {
         $this->langDir = $dir;
+
+        return $this;
     }
 
     /**
@@ -194,11 +200,13 @@ class Translator implements TranslatorInterface
      * Set language files extension
      *
      * @param $ext
-     * @return void
+     * @return $this;
      */
     public function setFileExtension($ext)
     {
         $this->ext = $ext;
+
+        return $this;
     }
 
     /**
