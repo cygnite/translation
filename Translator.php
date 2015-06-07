@@ -20,20 +20,14 @@ class Translator implements TranslatorInterface
      * @var  string   target language: en, en-us, es-es, zh-cn, etc
      */
     public static $locale = 'en-us';
-
     /**
      * @var  string  source language: en-us, es-es, zh-cn, etc
      */
     public static $source = 'en-us';
-
     public static $fallback = 'en';
-
-    protected $rootDir;
-
-    protected $langDir = 'Languages';
-
+    public static $rootDir;
+    public static $langDir;
     protected $ext = '.php';
-
     /**
      * @var  array  cache of loaded languages
      */
@@ -82,6 +76,16 @@ class Translator implements TranslatorInterface
     }
 
     /**
+     * Get the fallback locale being used.
+     *
+     * @return string
+     */
+    public function getFallback()
+    {
+        return static::$fallback;
+    }
+
+    /**
      * Set the fallback locale being used.
      *
      * @param  string $fallback
@@ -92,16 +96,6 @@ class Translator implements TranslatorInterface
         static::$fallback = $fallback;
 
         return $this;
-    }
-
-    /**
-     * Get the fallback locale being used.
-     *
-     * @return string
-     */
-    public function getFallback()
-    {
-        return static::$fallback;
     }
 
     /**
@@ -156,7 +150,7 @@ class Translator implements TranslatorInterface
      */
     public function setRootDirectory($dir)
     {
-        $this->rootDir = $dir;
+        static::$rootDir = $dir;
 
         return $this;
     }
@@ -169,20 +163,7 @@ class Translator implements TranslatorInterface
      */
     public function getRootDirectory()
     {
-        return isset($this->rootDir) ? $this->rootDir : APPPATH . DS;
-    }
-
-    /**
-     * Set language directory name
-     *
-     * @param $dir
-     * @return $this
-     */
-    public function setLangDir($dir)
-    {
-        $this->langDir = $dir;
-
-        return $this;
+        return isset(static::$rootDir) ? static::$rootDir : null;
     }
 
     /**
@@ -193,7 +174,20 @@ class Translator implements TranslatorInterface
      */
     public function getLangDir()
     {
-        return $this->langDir;
+        return isset(static::$langDir) ? static::$langDir : null;
+    }
+
+    /**
+     * Set language directory name
+     *
+     * @param $dir
+     * @return $this
+     */
+    public function setLangDir($dir)
+    {
+        static::$langDir = $dir;
+
+        return $this;
     }
 
     /**
@@ -229,14 +223,15 @@ class Translator implements TranslatorInterface
     public function findLanguageFile($file)
     {
         // Create a partial path of the filename
-        $path = DS . $file . $this->getFileExtension();
+        $path = DIRECTORY_SEPARATOR . $file . $this->getFileExtension();
+
         // Include paths must be searched in reverse
         $paths = array_reverse([$this->getRootDirectory() . $this->getLangDir()]);
 
         // Array of files that have been found
         $locale = [];
-
         foreach ($paths as $dir) {
+
             if (is_file($dir . $path)) {
                 // This path has a file, add it to the list
                 $locale[] = $dir . $path;
@@ -278,7 +273,7 @@ class Translator implements TranslatorInterface
 
         do {
             // Create a path for this set of parts
-            $path = implode(DS, $parts);
+            $path = implode(DIRECTORY_SEPARATOR, $parts);
 
             // Remove the last part
             if ($files = $this->findLanguageFile($path)) {
