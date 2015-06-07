@@ -16,7 +16,10 @@
     "autoload": {
         "psr-0": {
             "Cygnite\\Translation": ""
-        }
+        },
+        "files": [
+            "vendor/cygnite/translation/Cygnite/Translation/TranslatorHelper.php"
+        ]
     },
     "target-dir": "Cygnite\\Translation",
     "minimum-stability": "dev"
