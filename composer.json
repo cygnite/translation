@@ -18,7 +18,7 @@
             "Cygnite\\Translation": ""
         },
         "files": [
-            "/cygnite/translation/Cygnite/Translation/TranslatorHelper.php"
+            "TranslatorHelper.php"
         ]
     },
     "target-dir": "Cygnite\\Translation",
